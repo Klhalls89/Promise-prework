@@ -14,40 +14,33 @@ testNum(12)
 
 function sortWords(words) {
   words = words.sort()
-  console.log('after sort', words)
+
+  return new Promise((resolve, reject) => {
+    resolve(words);
+  })
 }
 
 function makeAllCaps(words) {
-  checkedWords = words.map(word => {
+  words = words.map(word => {
     if (typeof word === 'string') {
-      return true;
+      return word.toUpperCase();
     } else {
       return false;
     }
   });
 
-  let promise = new Promise(function(resolve, reject) {
-    if (checkedWords.includes(false)) {
-      reject('Failure!');
+  return new Promise((resolve, reject) => {
+    if (words.includes(false)) {
+      reject('No, the array you passed in contained an element that was not a string!');
     } else {
-      resolve('Success!');
+      resolve(words);
     }
   });
-
-  words = words.map(word => {
-    return word.toUpperCase()
-  })
-
-  promise
-    .then(data => sortWords(words))
-    .catch(error => console.log(error))
-
-  promise
-    .then(result => console.log(result))
-    .catch(error => console.log(error))
-
 }
 
-makeAllCaps(['wowow', 'dog', 'bird']);
+makeAllCaps(['wowow', 'pants', 'bird'])
+  .then(words => sortWords(words))
+  .then(result => console.log(result))
+  .catch(error => console.log(error))
 
 
