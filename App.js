@@ -18,26 +18,36 @@ function sortWords(words) {
 }
 
 function makeAllCaps(words) {
-
-  let promise = new Promise(function(resolve, reject) {
-
-    words = words.map(word => {
-      if(typeof(word) === 'string') {
-        resolve('Success!');
-        return word.toUpperCase();
-      } else {
-      reject('Failure!');
-      console.log('No, the array you passed in contained an element that was not a string!')
-      }
-    })
+  checkedWords = words.map(word => {
+    if (typeof word === 'string') {
+      return true;
+    } else {
+      return false;
+    }
   });
 
-  promise.then(data => sortWords(words))
-  promise.then(result => console.log(result))
-  .catch(error => console.log(error))
+  let promise = new Promise(function(resolve, reject) {
+    if (checkedWords.includes(false)) {
+      reject('Failure!');
+    } else {
+      resolve('Success!');
+    }
+  });
+
+  words = words.map(word => {
+    return word.toUpperCase()
+  })
+
+  promise
+    .then(data => sortWords(words))
+    .catch(error => console.log(error))
+
+  promise
+    .then(result => console.log(result))
+    .catch(error => console.log(error))
 
 }
 
-makeAllCaps(['wowow', 'pants', 'bird'])
+makeAllCaps(['wowow', 'dog', 'bird']);
 
 
